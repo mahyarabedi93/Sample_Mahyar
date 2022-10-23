@@ -1,7 +1,0 @@
-altair==4.2.0
-hiplot==0.1.33
-matplotlib==3.5.2
-numpy==1.22
-pandas==1.4.3
-seaborn==0.11.2
-streamlit==1.13.0
