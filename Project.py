@@ -148,7 +148,7 @@ st.markdown('<p class="font_subtext">Fig. 1: Photon and energy distribution for 
 
 st.markdown('<p class="font_subheader">Plant Data: </p>', unsafe_allow_html=True)
 
-Plant_Data=pd.read_excel("Project Data.xlsx",sheet_name="Sheet1")
+Plant_Data=pd.read_csv("Project Data.csv")
 
 st.table(Plant_Data.describe())
 
