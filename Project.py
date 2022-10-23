@@ -128,7 +128,7 @@ else:
     plt.xlim(300,900)
     plt.grid(which='both',axis='both',color='grey', linestyle='--', linewidth=.3)
     plt.xlabel('Wavelength $(nm)$')
-    plt.ylabel('Photon Flux Density $(\mu mol \: m^{-2} \: s^{-1} \: nm^{-1})$')
+    plt.ylabel('Photon Flux Density')
     plt.subplot(1,2,2)
     plt.plot(Light_Treatments['Greenhouse Wavelength'] , Light_Treatments['Energy '+Light_Treatment_Name], linewidth=1,color='black')
     plt.title(Light_Treatment_Name)
