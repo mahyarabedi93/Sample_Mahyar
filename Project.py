@@ -46,7 +46,7 @@ st.image("https://www.springwise.com/wp-content/uploads/2022/03/innovationsustai
 
 ####################################################################################################################################################################
 
-st.markdown(r'<p class="font_text">Numerous factors regulate plant growth and cultivation yield including temperature, carbon dioxide concentration, relative humidity, and the intensity and quality of light. </p>', unsafe_allow_html=True)
+st.markdown('<p class="font_text">Numerous factors regulate plant growth and cultivation yield including temperature, carbon dioxide concentration, relative humidity, and the intensity and quality of light. </p>', unsafe_allow_html=True)
 st.markdown('<p class="font_text">The goal for this part of the project is to investigate the available data for indoor lettuce cultivar for a possible trend between the investigated features and the cultivation yield. </p>', unsafe_allow_html=True)
 st.markdown('<p class="font_text">For better comparison incoming spectra are divided into 100 nm wavebands : Blue (B) 400 to 500 nm, Green (B) 500 to 600 nm, Red (R) 600 to 700 nm, Far-Red (FR) 700 to 800 nm. </p>', unsafe_allow_html=True)
 
