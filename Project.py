@@ -75,7 +75,7 @@ rc('font',**{'family':'serif','serif':['Times']})
 rc('text', usetex=True)
 
 if Light_Treatment_Name != "Greenhouse":
-    plt.figure(figsize=(12,4))
+    Figure=plt.figure(figsize=(12,4))
     plt.subplot(1,2,1)
     plt.plot(Light_Treatments['Wavelength'] , Light_Treatments[Light_Treatment_Name], linewidth=1,color='black')
     plt.title(Light_Treatment_Name)
@@ -111,7 +111,7 @@ if Light_Treatment_Name != "Greenhouse":
     plt.xlabel('Wavelength (nm)')
     plt.ylabel('Spectral Energy')
 else:
-    plt.figure(figsize=(12,2))
+    Figure=plt.figure(figsize=(12,2))
     plt.subplot(1,2,1)
     plt.plot(Light_Treatments['Greenhouse Wavelength'] , Light_Treatments[Light_Treatment_Name], linewidth=1,color='black')
     plt.title(Light_Treatment_Name)
@@ -146,7 +146,7 @@ else:
     plt.grid(which='both',axis='both',color='grey', linestyle='--', linewidth=.3)
     plt.xlabel('Wavelength $(nm)$')
     plt.ylabel('Spectral Energy')
-st.pyplot()
+st.pyplot(Figure)
 st.markdown('<p class="font_subtext">Fig. 1: Photon and energy distribution for various investigated light treatment.</p>', unsafe_allow_html=True)
 
 ####################################################################################################################################################################
