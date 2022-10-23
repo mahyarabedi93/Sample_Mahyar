@@ -68,12 +68,7 @@ st.sidebar.markdown('<p class="font_text">Spectral Visualization:</p>', unsafe_a
 Light_Treatment_Name = st.sidebar.selectbox(
     "Fig. 1: Light Treatment:",
     ['B30R150' , 'B30R150FR30' , 'R180FR30' , 'B90R90' , 'B90R90FR30' , 'B180FR30' , 'B90R90FR75' , 'B180R180' , 'B180R180FR30' , 'B180R180FR75' , 'B60R120' , 'B40G20R120' , 'B20G40R120' , 'G60R120' , 'B40R120FR20' , 'B20R120FR40' , 'R120FR60' , 'B20G20R120FR20' , 'R180' , 'B20R160' , 'B20G60R100' , 'B60G60R60' , 'B100R80' , 'B100G60R20' , 'EQW180' , 'EQW100B10R70' , 'EQW100B50R30' , 'WW180' , 'Greenhouse'])
-
-from matplotlib import rc
-#rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
-rc('font',**{'family':'serif','serif':['Times']})
-rc('text', usetex=True)
-
+    
 if Light_Treatment_Name != "Greenhouse":
     Figure=plt.figure(figsize=(12,4))
     plt.subplot(1,2,1)
@@ -127,7 +122,7 @@ else:
     plt.xticks(ticks=[400,500,600,700,800])
     plt.xlim(300,900)
     plt.grid(which='both',axis='both',color='grey', linestyle='--', linewidth=.3)
-    plt.xlabel('Wavelength $(nm)$')
+    plt.xlabel('Wavelength (nm)')
     plt.ylabel('Photon Flux Density')
     plt.subplot(1,2,2)
     plt.plot(Light_Treatments['Greenhouse Wavelength'] , Light_Treatments['Energy '+Light_Treatment_Name], linewidth=1,color='black')
@@ -144,7 +139,7 @@ else:
     plt.xticks(ticks=[400,500,600,700,800])
     plt.xlim(300,900)
     plt.grid(which='both',axis='both',color='grey', linestyle='--', linewidth=.3)
-    plt.xlabel('Wavelength $(nm)$')
+    plt.xlabel('Wavelength (nm)')
     plt.ylabel('Spectral Energy')
 st.pyplot(Figure)
 st.markdown('<p class="font_subtext">Fig. 1: Photon and energy distribution for various investigated light treatment.</p>', unsafe_allow_html=True)
@@ -163,29 +158,20 @@ st.sidebar.markdown('<p class="font_text">Pairplot configuration:</p>', unsafe_a
 
 pairplot_options_x = st.multiselect(
     'Select features for x-axis of matrixplot:',
-    ['Species', 'Treatment', 'Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)',
+    ['Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)',
     'CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day', 'Fresh Mass (g)', 'Dry Mass (g)'])
 
 pairplot_options_y = st.multiselect(
     'Select features for y-axis of matrixplot:',
-    ['Species', 'Treatment', 'Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)',
+    ['Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)',
     'CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day', 'Fresh Mass (g)', 'Dry Mass (g)'])
-
-pairplot_kind = st.sidebar.select_slider(
-    'Select kind for matrixplot:',
-    options=['reg', 'hist', 'kde', 'scatter'])
     
 pairplot_hue = st.sidebar.select_slider(
     'Select hue for matrixplot:',
     options=['Species', 'Treatment'])
-    
-pairplot_palette = st.sidebar.select_slider(
-    'Select palette for matrixplot:',
-    options=['husl','Paired','rocket','magma','viridis','Spectral','coolwarm'])
 
 
-fig1=sns.pairplot(data=Plant_Data,x_vars=pairplot_options_x,y_vars=pairplot_options_y, kind=pairplot_kind,hue=pairplot_hue,palette=pairplot_palette)
-st.pyplot(fig1)
+fig1=sns.pairplot(data=Plant_Data,x_vars=pairplot_options_x,y_vars=pairplot_options_y, kind='scatter    ',hue=pairplot_hue,palette='hsv')
 
 c=alt.Chart(Plant_Data).mark_circle().encode(
     alt.X(alt.repeat("column"), type='quantitative'),
