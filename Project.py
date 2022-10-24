@@ -296,8 +296,8 @@ with tab1:
     G=heatmap+points
     col1.altair_chart(G, use_container_width=True)
     heatmap = alt.Chart(Plant_Data).mark_rect().encode(
-        alt.X(option1+':Q', bin=True),
-        alt.Y(option3+':Q', bin=True),
+        alt.X(option3+':Q', bin=True),
+        alt.Y(option2+':Q', bin=True),
         alt.Color('count()', scale=alt.Scale(scheme='greenblue'))
     ).properties(
         height=500,
@@ -307,8 +307,8 @@ with tab1:
         color='black',
         size=5,
     ).encode(
-        x=option1+':Q',
-        y=option3+':Q',
+        x=option3+':Q',
+        y=option2+':Q',
     ).properties(
         height=500,
         width=700
