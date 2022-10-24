@@ -360,8 +360,12 @@ Scatter_3D_Z =st.sidebar.selectbox(
     "Fig. 5: Z-axis feature for 3D scatter plot:",
     ['Dry Mass (g)', 'Fresh Mass (g)'])
 
+Scatter_3D_hue =st.sidebar.selectbox(
+    "Fig. 5: hue for 3D scatter plot:",
+    ['Species', 'Treatment'])
+
 fig=px.scatter_3d(Plant_Data, x=Scatter_3D_X, y=Scatter_3D_Y, z=Scatter_3D_Z,opacity = 0.7,height=600,
-    width=1200,color='Treatment')
+    width=1200,color=Scatter_3D_hue)
 st.plotly_chart(fig)
 st.markdown('<p class="font_subtext">Fig. 6: 3D scatter plot of lettuce mass versus other features.</p>', unsafe_allow_html=True)
 
