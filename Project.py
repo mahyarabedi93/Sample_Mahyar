@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import hiplot as hip
 import altair as alt
+import plotly.figure_factory as ff
+import plotly.express as px
 
 ####################################################################################################################################################################
 st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -63,7 +65,9 @@ Light_Treatments = pd.read_csv("Light Data All.csv")
 st.table(Light_Treatments.describe())
 st.markdown('<p class="font_subtext">Table 1: Statistical properties of various light treatment.</p>', unsafe_allow_html=True)
 
-st.sidebar.markdown('<p class="font_text">Spectral Visualization:</p>', unsafe_allow_html=True)
+####################################################################################################################################################################
+
+st.sidebar.markdown('<p class="font_text">Fig. 1: Spectral Visualization:</p>', unsafe_allow_html=True)
 
 Light_Treatment_Name = st.sidebar.selectbox(
     "Fig. 1: Light Treatment:",
@@ -154,14 +158,52 @@ st.table(Plant_Data.describe())
 
 st.markdown('<p class="font_subtext">Table 2: Statistical properties of lettuce cultivated under different light treatment and environmental conidtions.</p>', unsafe_allow_html=True)
 
-st.sidebar.markdown('<p class="font_text">Pairplot configuration:</p>', unsafe_allow_html=True)
+####################################################################################################################################################################
 
-pairplot_options_x = st.multiselect(
+col3,col4=st.columns(2,gap='small')
+
+source = pd.DataFrame({"category": ['Rouxai','Rex','Cherokee'], "value": [Plant_Data.loc[Plant_Data["Species"]=="Rouxai"].shape[0],
+                                                Plant_Data.loc[Plant_Data["Species"]=="Rex"].shape[0],
+                                                Plant_Data.loc[Plant_Data["Species"]=="Cherokee"].shape[0]]})
+
+d=alt.Chart(source).mark_arc(innerRadius=50).encode(
+    theta=alt.Theta(field="value", type="quantitative"),
+    color=alt.Color(field="category", type="nominal",
+                    scale=alt.Scale(scheme='rainbow'))
+)
+
+col3.altair_chart(d, use_container_width=True)
+
+Cat=[]
+for i in Light_Treatments.columns:
+    if ('(' not in i) & ("Energy" not in i) & ("Wave" not in i):
+        Cat=np.append(Cat,i)
+        
+value=[];
+for i in Cat:
+    value=np.append(value,Plant_Data.loc[Plant_Data["Treatment"]==i].shape[0])
+source1 = pd.DataFrame({"category": Cat, "value": value})
+
+g=alt.Chart(source1).mark_arc(innerRadius=50).encode(
+    theta=alt.Theta(field="value", type="quantitative"),
+    color=alt.Color(field="category", type="nominal",
+                    scale=alt.Scale(scheme='rainbow'))
+)
+
+col4.altair_chart(g, use_container_width=True)
+
+st.markdown('<p class="font_subtext">Fig. 2: Categorical distribution of experimental observations.</p>', unsafe_allow_html=True)
+
+####################################################################################################################################################################
+
+st.sidebar.markdown('<p class="font_text">Fig. 3: Matrix plot configuration:</p>', unsafe_allow_html=True)
+col1,col2=st.columns(2,gap='small')
+pairplot_options_x = col1.multiselect(
     'Select features for x-axis of matrixplot:',
     ['Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)',
     'CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day', 'Fresh Mass (g)', 'Dry Mass (g)'])
 
-pairplot_options_y = st.multiselect(
+pairplot_options_y = col2.multiselect(
     'Select features for y-axis of matrixplot:',
     ['Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)',
     'CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day', 'Fresh Mass (g)', 'Dry Mass (g)'])
@@ -171,7 +213,7 @@ pairplot_hue = st.sidebar.select_slider(
     options=['Species', 'Treatment'])
 
 
-fig1=sns.pairplot(data=Plant_Data,x_vars=pairplot_options_x,y_vars=pairplot_options_y, kind='scatter    ',hue=pairplot_hue,palette='hsv')
+fig1=sns.pairplot(data=Plant_Data,x_vars=pairplot_options_x,y_vars=pairplot_options_y, kind='scatter',hue=pairplot_hue,palette='hsv')
 
 c=alt.Chart(Plant_Data).mark_circle().encode(
     alt.X(alt.repeat("column"), type='quantitative'),
@@ -181,15 +223,97 @@ c=alt.Chart(Plant_Data).mark_circle().encode(
     width=280,
     height=280
 ).repeat(
-    row=pairplot_options_x,
-    column=pairplot_options_y
+    row=pairplot_options_y,
+    column=pairplot_options_x
 ).interactive()
 
 st.altair_chart(c, use_container_width=True)
-st.markdown('<p class="font_subtext">Fig. 2: Pairplot for lettuce growth dataset.</p>', unsafe_allow_html=True)
+st.markdown('<p class="font_subtext">Fig. 3: Matrix plot for lettuce growth dataset.</p>', unsafe_allow_html=True)
 
-st.markdown('<p class="font_subsubheader"> Correlation between  </p>', unsafe_allow_html=True)
+####################################################################################################################################################################
 
+st.markdown('<p class="font_text">Dry Mass Heatmap based on Red and Blue Wavebands:</p>', unsafe_allow_html=True)
+#st.markdown('<p class="font_subsubheader"> Correlation between  </p>', unsafe_allow_html=True)
+col5,col6=st.columns(2,gap='small')
+heatmap = alt.Chart(Plant_Data).mark_rect().encode(
+    alt.X('Energy (600-700):Q', bin=True),
+    alt.Y('Dry Mass (g):Q', bin=True),
+    alt.Color('count()', scale=alt.Scale(scheme='greenblue'))
+).properties(
+    height=300,
+    width=600
+)
+
+points = alt.Chart(Plant_Data).mark_circle(
+    color='black',
+    size=5,
+).encode(
+    x='Energy (600-700):Q',
+    y='Dry Mass (g):Q',
+).properties(
+    height=300,
+    width=600
+)
+G=heatmap+points
+col5.altair_chart(G, use_container_width=True)
+
+heatmap = alt.Chart(Plant_Data).mark_rect().encode(
+    alt.X('Energy (400-500):Q', bin=True),
+    alt.Y('Dry Mass (g):Q', bin=True),
+    alt.Color('count()', scale=alt.Scale(scheme='greenblue'))
+).properties(
+    height=300,
+    width=600
+)
+
+points = alt.Chart(Plant_Data).mark_circle(
+    color='black',
+    size=5,
+).encode(
+    x='Energy (400-500):Q',
+    y='Dry Mass (g):Q',
+).properties(
+    height=300,
+    width=600
+)
+H=heatmap+points
+col6.altair_chart(H, use_container_width=True)
+st.markdown('<p class="font_subtext">Fig. 4: Impact of Red (600-700) and Blue (400-500) Wavebands on lettuce plant growth.</p>', unsafe_allow_html=True)
+
+####################################################################################################################################################################
+# st.sidebar.markdown('<p class="font_text">Fig. 5: 2D Scatter Plot:</p>', unsafe_allow_html=True)
+# Scatter_X =st.sidebar.selectbox(
+#     "Fig. 5: x-axis feature for scatter plot:",
+#     ['Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)','CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day'])
+
+# Scatter_Y =st.sidebar.selectbox(
+#     "Fig. 5: y-axis feature for scatter plot:",
+#     ['Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)','CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day','Dry Mass (g)','Fresh Mass (g)'])
+
+# fig = px.scatter(Plant_Data, x=Scatter_X, y=Scatter_Y,size="Day", color="Treatment",hover_name="Species", log_x=False, size_max=15)
+# fig.show()
+
+# st.plotly_chart(fig, use_container_width=True)
+# st.markdown('<p class="font_subtext">Fig. 5: 2D scatter plot for two given features.</p>', unsafe_allow_html=True)
+
+####################################################################################################################################################################
+#col7,col8=st.columns(2,gap='small')
+st.sidebar.markdown('<p class="font_text">Fig. 5: 3D Scatter Plot:</p>', unsafe_allow_html=True)
+Scatter_3D_X =st.sidebar.selectbox(
+    "Fig. 5: x-axis feature for 3D scatter plot:",
+    ['Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)','CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day'])
+
+Scatter_3D_Y =st.sidebar.selectbox(
+    "Fig. 5: y-axis feature for 3D scatter plot:",
+    ['Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)','CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day'])
+
+Scatter_3D_Z =st.sidebar.selectbox(
+    "Fig. 5: Z-axis feature for 3D scatter plot:",
+    ['Dry Mass (g)', 'Fresh Mass (g)'])
+
+fig=px.scatter_3d(Plant_Data, x=Scatter_3D_X, y=Scatter_3D_Y, z=Scatter_3D_Z,opacity = 0.7,height=600,
+    width=1200,color='Treatment')
+st.plotly_chart(fig)
 
 ####################################################################################################################################################################
 
