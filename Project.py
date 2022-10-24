@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import hiplot as hip
 import altair as alt
+import plotly.figure_factory as ff
 import plotly.express as px
 
 ####################################################################################################################################################################
@@ -58,11 +59,17 @@ st.markdown('<p class="font_header">Data: </p>', unsafe_allow_html=True)
 ####################################################################################################################################################################
 
 st.markdown('<p class="font_subheader">Light Treatment: </p>', unsafe_allow_html=True)
-
 Light_Treatments = pd.read_csv("Light Data All.csv")
+col1,col2=st.columns(2,gap='small')
+light_stat = col1.checkbox('Show statistical properties of Light Treatments')
+if light_stat==True:
+    st.table(Light_Treatments.describe())
+    st.markdown('<p class="font_subtext">Table 1: Statistical properties of various light treatment.</p>', unsafe_allow_html=True)
 
-st.table(Light_Treatments.describe())
-st.markdown('<p class="font_subtext">Table 1: Statistical properties of various light treatment.</p>', unsafe_allow_html=True)
+light_show = col2.checkbox('Show Light Treatments Data')
+if light_show==True:
+    st.table(Light_Treatments)
+    st.markdown('<p class="font_subtext">Table 2: Light treatment information including energy, photon density, and wavelength.</p>', unsafe_allow_html=True)
 
 ####################################################################################################################################################################
 
@@ -71,9 +78,13 @@ st.sidebar.markdown('<p class="font_text">Fig. 1: Spectral Visualization:</p>', 
 Light_Treatment_Name = st.sidebar.selectbox(
     "Fig. 1: Light Treatment:",
     ['B30R150' , 'B30R150FR30' , 'R180FR30' , 'B90R90' , 'B90R90FR30' , 'B180FR30' , 'B90R90FR75' , 'B180R180' , 'B180R180FR30' , 'B180R180FR75' , 'B60R120' , 'B40G20R120' , 'B20G40R120' , 'G60R120' , 'B40R120FR20' , 'B20R120FR40' , 'R120FR60' , 'B20G20R120FR20' , 'R180' , 'B20R160' , 'B20G60R100' , 'B60G60R60' , 'B100R80' , 'B100G60R20' , 'EQW180' , 'EQW100B10R70' , 'EQW100B50R30' , 'WW180' , 'Greenhouse'])
+
+col1,col3,col2=st.columns([5,1,5],gap='small')
+x_min = col1.number_input('Insert a minimum value for x-axis')
+x_max = col2.number_input('Insert a maximum value for x-axis')
     
 if Light_Treatment_Name != "Greenhouse":
-    Figure=plt.figure(figsize=(12,4))
+    Figure=plt.figure(figsize=(12,2))
     plt.subplot(1,2,1)
     plt.plot(Light_Treatments['Wavelength'] , Light_Treatments[Light_Treatment_Name], linewidth=1,color='black')
     plt.title(Light_Treatment_Name)
@@ -87,7 +98,7 @@ if Light_Treatment_Name != "Greenhouse":
     plt.axvline(x = 700, linewidth=1,linestyle='--',color='black')
     plt.axvline(x = 800, linewidth=1,linestyle='--',color='black')
     plt.xticks(ticks=[400,500,600,700,800])
-    plt.xlim(300,900)
+    plt.xlim(x_min,x_max)
     plt.grid(which='both',axis='both',color='grey', linestyle='--', linewidth=.3)
     plt.xlabel('Wavelength (nm)')
     plt.ylabel('Photon Flux Density')
@@ -103,8 +114,8 @@ if Light_Treatment_Name != "Greenhouse":
     plt.axvline(x = 600, linewidth=1,linestyle='--',color='black')
     plt.axvline(x = 700, linewidth=1,linestyle='--',color='black')
     plt.axvline(x = 800, linewidth=1,linestyle='--',color='black')
-    plt.xticks(ticks=[400,500,600,700,800])
-    plt.xlim(300,900)
+    # plt.xticks(ticks=[400,500,600,700,800])
+    plt.xlim(x_min,x_max)
     plt.grid(which='both',axis='both',color='grey', linestyle='--', linewidth=.3)
     plt.xlabel('Wavelength (nm)')
     plt.ylabel('Spectral Energy')
@@ -122,8 +133,8 @@ else:
     plt.axvline(x = 600, linewidth=1,linestyle='--',color='black')
     plt.axvline(x = 700, linewidth=1,linestyle='--',color='black')
     plt.axvline(x = 800, linewidth=1,linestyle='--',color='black')
-    plt.xticks(ticks=[400,500,600,700,800])
-    plt.xlim(300,900)
+    # plt.xticks(ticks=[400,500,600,700,800])
+    plt.xlim(x_min,x_max)
     plt.grid(which='both',axis='both',color='grey', linestyle='--', linewidth=.3)
     plt.xlabel('Wavelength (nm)')
     plt.ylabel('Photon Flux Density')
@@ -139,8 +150,8 @@ else:
     plt.axvline(x = 600, linewidth=1,linestyle='--',color='black')
     plt.axvline(x = 700, linewidth=1,linestyle='--',color='black')
     plt.axvline(x = 800, linewidth=1,linestyle='--',color='black')
-    plt.xticks(ticks=[400,500,600,700,800])
-    plt.xlim(300,900)
+    # plt.xticks(ticks=[400,500,600,700,800])
+    plt.xlim(x_min,x_max)
     plt.grid(which='both',axis='both',color='grey', linestyle='--', linewidth=.3)
     plt.xlabel('Wavelength (nm)')
     plt.ylabel('Spectral Energy')
@@ -153,9 +164,27 @@ st.markdown('<p class="font_subheader">Plant Data: </p>', unsafe_allow_html=True
 
 Plant_Data=pd.read_csv("Project Data.csv")
 
-st.table(Plant_Data.describe())
+col1,col2,col3=st.columns(3,gap='small')
+lettuce_stat = col1.checkbox('Show statistical properties of Lettuce dataset')
 
-st.markdown('<p class="font_subtext">Table 2: Statistical properties of lettuce cultivated under different light treatment and environmental conidtions.</p>', unsafe_allow_html=True)
+if lettuce_stat==True:
+    st.table(Plant_Data.describe())
+    st.markdown('<p class="font_subtext">Table 3: Statistical properties of lettuce cultivated under different light treatment and environmental conidtions.</p>', unsafe_allow_html=True)
+
+lettuce_show = col2.checkbox('Show Lettuce dataset')
+
+if lettuce_show==True:
+    st.table(Plant_Data)
+    st.markdown('<p class="font_subtext">Table 4: Experimental observations for lettuce cultivated under different light treatments and various environmental conidtions.</p>', unsafe_allow_html=True)
+
+
+lettuce_hip = col3.checkbox('Show Lettuce hiplot')
+
+if lettuce_hip==True:
+    xp = hip.Experiment.from_dataframe(Plant_Data)
+    ret_val = xp.to_streamlit(ret="selected_uids", key="hip").display()
+    st.markdown('<p class="font_subtext">Fig. 2: Hiplot for lettuce data.</p>', unsafe_allow_html=True)
+
 
 ####################################################################################################################################################################
 
@@ -167,9 +196,9 @@ source = pd.DataFrame({"category": ['Rouxai','Rex','Cherokee'], "value": [Plant_
 
 d=alt.Chart(source).mark_arc(innerRadius=50).encode(
     theta=alt.Theta(field="value", type="quantitative"),
-    color=alt.Color(field="category", type="nominal",
-                    scale=alt.Scale(scheme='rainbow'))
-)
+    color=alt.Color(field="category", type="nominal",scale=alt.Scale(scheme='rainbow')),
+    tooltip=("category","value")
+).interactive()
 
 col3.altair_chart(d, use_container_width=True)
 
@@ -185,17 +214,17 @@ source1 = pd.DataFrame({"category": Cat, "value": value})
 
 g=alt.Chart(source1).mark_arc(innerRadius=50).encode(
     theta=alt.Theta(field="value", type="quantitative"),
-    color=alt.Color(field="category", type="nominal",
-                    scale=alt.Scale(scheme='rainbow'))
-)
+    color=alt.Color(field="category", type="nominal",scale=alt.Scale(scheme='rainbow')),
+    tooltip=("category","value")
+).interactive()
 
 col4.altair_chart(g, use_container_width=True)
 
-st.markdown('<p class="font_subtext">Fig. 2: Categorical distribution of experimental observations.</p>', unsafe_allow_html=True)
+st.markdown('<p class="font_subtext">Fig. 3: Categorical distribution of experimental observations.</p>', unsafe_allow_html=True)
 
 ####################################################################################################################################################################
 
-st.sidebar.markdown('<p class="font_text">Fig. 3: Matrix plot configuration:</p>', unsafe_allow_html=True)
+st.sidebar.markdown('<p class="font_text">Fig. 4: Matrix plot configuration:</p>', unsafe_allow_html=True)
 col1,col2=st.columns(2,gap='small')
 pairplot_options_x = col1.multiselect(
     'Select features for x-axis of matrixplot:',
@@ -217,7 +246,8 @@ fig1=sns.pairplot(data=Plant_Data,x_vars=pairplot_options_x,y_vars=pairplot_opti
 c=alt.Chart(Plant_Data).mark_circle().encode(
     alt.X(alt.repeat("column"), type='quantitative'),
     alt.Y(alt.repeat("row"), type='quantitative'),
-    color=pairplot_hue
+    color=pairplot_hue,
+    tooltip=['Dry Mass (g)', 'Photoperiod (h)', 'RH ave', 'CO2 ave']
 ).properties(
     width=280,
     height=280
@@ -227,77 +257,96 @@ c=alt.Chart(Plant_Data).mark_circle().encode(
 ).interactive()
 
 st.altair_chart(c, use_container_width=True)
-st.markdown('<p class="font_subtext">Fig. 3: Matrix plot for lettuce growth dataset.</p>', unsafe_allow_html=True)
+st.markdown('<p class="font_subtext">Fig. 4: Matrix plot for lettuce growth dataset.</p>', unsafe_allow_html=True)
 
 ####################################################################################################################################################################
 
-st.markdown('<p class="font_text">Dry Mass Heatmap based on Red and Blue Wavebands:</p>', unsafe_allow_html=True)
+# st.markdown('<p class="font_text">Dry Mass Heatmap based on Red and Blue Wavebands:</p>', unsafe_allow_html=True)
 #st.markdown('<p class="font_subsubheader"> Correlation between  </p>', unsafe_allow_html=True)
-col5,col6=st.columns(2,gap='small')
-heatmap = alt.Chart(Plant_Data).mark_rect().encode(
-    alt.X('Energy (600-700):Q', bin=True),
-    alt.Y('Dry Mass (g):Q', bin=True),
-    alt.Color('count()', scale=alt.Scale(scheme='greenblue'))
-).properties(
-    height=300,
-    width=600
-)
+tab1, tab2 = st.tabs(["Heatmap", "Jointplot"])
+with tab1:
+    option1 = st.selectbox(
+        'Studied feature 1:',
+        ('Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)',
+        'CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day'))
+    option3 = st.selectbox(
+        'Studied feature 2:',
+        ('Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)',
+        'CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day'))
+    option2 = st.selectbox('Dry Mass or Fresh Mass',('Dry Mass (g)', 'Fresh Mass (g)'))
+    col1, col2=st.columns(2,gap='small')
+    heatmap = alt.Chart(Plant_Data).mark_rect().encode(
+        alt.X(option1+':Q', bin=True),
+        alt.Y(option2+':Q', bin=True),
+        alt.Color('count()', scale=alt.Scale(scheme='greenblue'))
+    ).properties(
+        height=500,
+        width=700
+    )
+    points = alt.Chart(Plant_Data).mark_circle(
+        color='black',
+        size=5,
+    ).encode(
+        x=option1+':Q',
+        y=option2+':Q',
+    ).properties(
+        height=500,
+        width=700
+    )
+    G=heatmap+points
+    col1.altair_chart(G, use_container_width=True)
+    heatmap = alt.Chart(Plant_Data).mark_rect().encode(
+        alt.X(option1+':Q', bin=True),
+        alt.Y(option3+':Q', bin=True),
+        alt.Color('count()', scale=alt.Scale(scheme='greenblue'))
+    ).properties(
+        height=500,
+        width=700
+    )
+    points = alt.Chart(Plant_Data).mark_circle(
+        color='black',
+        size=5,
+    ).encode(
+        x=option1+':Q',
+        y=option3+':Q',
+    ).properties(
+        height=500,
+        width=700
+    )
+    G=heatmap+points
+    col2.altair_chart(G, use_container_width=True)
+    st.markdown('<p class="font_subtext">Fig. 5: Heatmap of lettuce mass with respect to a feature.</p>', unsafe_allow_html=True)
 
-points = alt.Chart(Plant_Data).mark_circle(
-    color='black',
-    size=5,
-).encode(
-    x='Energy (600-700):Q',
-    y='Dry Mass (g):Q',
-).properties(
-    height=300,
-    width=600
-)
-G=heatmap+points
-col5.altair_chart(G, use_container_width=True)
+with tab2:
+    option3 = st.selectbox(
+        'Feature 1',
+        ('Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)',
+        'CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day'))
 
-heatmap = alt.Chart(Plant_Data).mark_rect().encode(
-    alt.X('Energy (400-500):Q', bin=True),
-    alt.Y('Dry Mass (g):Q', bin=True),
-    alt.Color('count()', scale=alt.Scale(scheme='greenblue'))
-).properties(
-    height=300,
-    width=600
-)
+    option4 = st.selectbox(
+        'Feature 2',
+        ('Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)',
+        'CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day'))
 
-points = alt.Chart(Plant_Data).mark_circle(
-    color='black',
-    size=5,
-).encode(
-    x='Energy (400-500):Q',
-    y='Dry Mass (g):Q',
-).properties(
-    height=300,
-    width=600
-)
-H=heatmap+points
-col6.altair_chart(H, use_container_width=True)
-st.markdown('<p class="font_subtext">Fig. 4: Impact of Red (600-700) and Blue (400-500) Wavebands on lettuce plant growth.</p>', unsafe_allow_html=True)
+    option5 = st.selectbox(
+        'Color map:',
+        ('mako','viridis','rocket','Spectral','coolwarm','cubehelix','dark:salmon_r'))
 
-####################################################################################################################################################################
-# st.sidebar.markdown('<p class="font_text">Fig. 5: 2D Scatter Plot:</p>', unsafe_allow_html=True)
-# Scatter_X =st.sidebar.selectbox(
-#     "Fig. 5: x-axis feature for scatter plot:",
-#     ['Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)','CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day'])
+    option6 = st.slider('Number of contour level:', 0, 200, 20)
 
-# Scatter_Y =st.sidebar.selectbox(
-#     "Fig. 5: y-axis feature for scatter plot:",
-#     ['Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)','CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day','Dry Mass (g)','Fresh Mass (g)'])
-
-# fig = px.scatter(Plant_Data, x=Scatter_X, y=Scatter_Y,size="Day", color="Treatment",hover_name="Species", log_x=False, size_max=15)
-# fig.show()
-
-# st.plotly_chart(fig, use_container_width=True)
-# st.markdown('<p class="font_subtext">Fig. 5: 2D scatter plot for two given features.</p>', unsafe_allow_html=True)
+    sns.set_theme(style="white")
+    fig = sns.JointGrid(data=Plant_Data, x=option3, y=option4, space=0)
+    fig.plot_joint(sns.kdeplot,
+                 fill=True,
+                 thresh=0, levels=option6, cmap=option5)
+    fig.plot_marginals(sns.histplot, color="blue", alpha=1, bins=30)
+    plt.show()
+    st.pyplot(fig)
+    st.markdown('<p class="font_subtext">Fig. 5: Jointplot for two of the investigated features.</p>', unsafe_allow_html=True)
 
 ####################################################################################################################################################################
 #col7,col8=st.columns(2,gap='small')
-st.sidebar.markdown('<p class="font_text">Fig. 5: 3D Scatter Plot:</p>', unsafe_allow_html=True)
+st.sidebar.markdown('<p class="font_text">Fig. 6: 3D Scatter Plot:</p>', unsafe_allow_html=True)
 Scatter_3D_X =st.sidebar.selectbox(
     "Fig. 5: x-axis feature for 3D scatter plot:",
     ['Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)','CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day'])
@@ -313,6 +362,7 @@ Scatter_3D_Z =st.sidebar.selectbox(
 fig=px.scatter_3d(Plant_Data, x=Scatter_3D_X, y=Scatter_3D_Y, z=Scatter_3D_Z,opacity = 0.7,height=600,
     width=1200,color='Treatment')
 st.plotly_chart(fig)
+st.markdown('<p class="font_subtext">Fig. 6: 3D scatter plot of lettuce mass versus other features.</p>', unsafe_allow_html=True)
 
 ####################################################################################################################################################################
 
