@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import hiplot as hip
 import altair as alt
-import plotly.figure_factory as ff
 import plotly.express as px
 
 ####################################################################################################################################################################
