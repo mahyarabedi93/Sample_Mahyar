@@ -348,19 +348,22 @@ with tab2:
 #col7,col8=st.columns(2,gap='small')
 st.sidebar.markdown('<p class="font_text">Fig. 6: 3D Scatter Plot:</p>', unsafe_allow_html=True)
 Scatter_3D_X =st.sidebar.selectbox(
-    "Fig. 5: x-axis feature for 3D scatter plot:",
+    "Fig.6: x-axis feature for 3D scatter plot:",
     ['Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)','CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day'])
 
 Scatter_3D_Y =st.sidebar.selectbox(
-    "Fig. 5: y-axis feature for 3D scatter plot:",
+    "Fig. 6: y-axis feature for 3D scatter plot:",
     ['Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)','CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day'])
 
 Scatter_3D_Z =st.sidebar.selectbox(
-    "Fig. 5: Z-axis feature for 3D scatter plot:",
+    "Fig.6: Z-axis feature for 3D scatter plot:",
     ['Dry Mass (g)', 'Fresh Mass (g)'])
+Scatter_3D_hue =st.sidebar.selectbox(
+    "Fig. 6: Hue for 3D scatter plot:",
+    ['Species', 'Treatment'])
 
 fig=px.scatter_3d(Plant_Data, x=Scatter_3D_X, y=Scatter_3D_Y, z=Scatter_3D_Z,opacity = 0.7,height=600,
-    width=1200,color='Treatment')
+    width=1200,color=Scatter_3D_hue)
 st.plotly_chart(fig)
 st.markdown('<p class="font_subtext">Fig. 6: 3D scatter plot of lettuce mass versus other features.</p>', unsafe_allow_html=True)
 
