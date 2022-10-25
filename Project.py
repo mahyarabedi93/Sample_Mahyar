@@ -59,7 +59,7 @@ st.markdown('<p class="font_header">Data: </p>', unsafe_allow_html=True)
 
 st.markdown('<p class="font_subheader">Light Treatment: </p>', unsafe_allow_html=True)
 st.markdown('<p class="font_text">One of the cofactors that its impact has been investigated comprehensively, is the quality and the intensity with respect to its energy and photon density. While it is impossible to investigate the impact of every wavelengths on plant growth, studies suggest that impact of incoming light on plant growth could be measured by dividing the spectra into several wavebands. A common classification of light spectra is based on creating 100-nm wavebands and measure suggested parameters for specific wavebands. The following classification is used for the division spectral wavelength : Blue (B) 400 to 500 nm, Green (B) 500 to 600 nm, Red (R) 600 to 700 nm, Far-Red (FR) 700 to 800 nm. </p>', unsafe_allow_html=True)
-st.markdown('<p class="font_text">Energy and number of photons associated with the incoming spectra is often investigated in plant growth studies. Therefore, we analyzed the photon flux density and energy for each of the proposed wavebands. The following figure shows the photon flux and energy distribution for each of the investigated light treatment conditions </p>', unsafe_allow_html=True)
+st.markdown('<p class="font_text">Energy and number of photons associated with the incoming spectra is often investigated in plant growth studies. Therefore, we analyzed the photon flux density and energy for each of the proposed wavebands. The following figure shows the photon flux and energy distribution for each of the investigated light treatment conditions. While intensity for photon flux density or energy refers to its value, the quality referes to the fraction ratio of the photon flux density or energy for those wavebands. </p>', unsafe_allow_html=True)
 
 Light_Treatments = pd.read_csv("Light Data All.csv")
 col1,col2=st.columns(2,gap='small')
@@ -80,11 +80,11 @@ st.sidebar.markdown('<p class="font_text">Fig. 1: Spectral Visualization:</p>', 
 Light_Treatment_Name = st.sidebar.selectbox(
     "Fig. 1: Light Treatment:",
     ['B30R150' , 'B30R150FR30' , 'R180FR30' , 'B90R90' , 'B90R90FR30' , 'B180FR30' , 'B90R90FR75' , 'B180R180' , 'B180R180FR30' , 'B180R180FR75' , 'B60R120' , 'B40G20R120' , 'B20G40R120' , 'G60R120' , 'B40R120FR20' , 'B20R120FR40' , 'R120FR60' , 'B20G20R120FR20' , 'R180' , 'B20R160' , 'B20G60R100' , 'B60G60R60' , 'B100R80' , 'B100G60R20' , 'EQW180' , 'EQW100B10R70' , 'EQW100B50R30' , 'WW180' , 'Greenhouse'])
-
+All_ratio = pd.read_csv("Overall Ratio.csv")
 col1,col3,col2=st.columns([5,1,5],gap='small')
 x_min = col1.number_input('Insert a minimum value for x-axis',value=0.00)
 x_max = col2.number_input('Insert a maximum value for x-axis',value=1000.00)
-    
+
 if Light_Treatment_Name != "Greenhouse":
     Figure=plt.figure(figsize=(12,2))
     plt.subplot(1,2,1)
@@ -160,9 +160,16 @@ else:
 st.pyplot(Figure)
 st.markdown('<p class="font_subtext">Fig. 1: Photon and energy distribution for various investigated light treatment.</p>', unsafe_allow_html=True)
 
+st.write('For Blue wavebands (400-500 nm) of',Light_Treatment_Name, ' light treatment, photon flux density ratio is ',np.round(All_ratio[Light_Treatment_Name].iloc[0],2),', and energy ratio is ',np.round(All_ratio['Energy '+Light_Treatment_Name].iloc[0],2),'.')
+st.write('For Green wavebands (500-600 nm) of',Light_Treatment_Name, ' light treatment, photon flux density ratio is ',np.round(All_ratio[Light_Treatment_Name].iloc[1],2),', and energy ratio is ',np.round(All_ratio['Energy '+Light_Treatment_Name].iloc[1],2),'.')
+st.write('For Red wavebands (600-700 nm) of',Light_Treatment_Name, ' light treatment, photon flux density ratio is ',np.round(All_ratio[Light_Treatment_Name].iloc[2],2),', and energy ratio is ',np.round(All_ratio['Energy '+Light_Treatment_Name].iloc[2],2),'.')
+st.write('For Far-Red wavebands (700-800 nm) of',Light_Treatment_Name, ' light treatment, photon flux density ratio is ',np.round(All_ratio[Light_Treatment_Name].iloc[3],2),', and energy ratio is ',np.round(All_ratio['Energy '+Light_Treatment_Name].iloc[3],2),'.')
+
 ####################################################################################################################################################################
 
 st.markdown('<p class="font_subheader">Plant Data: </p>', unsafe_allow_html=True)
+
+st.markdown('<p class="font_text"> In the previous section, we analyzed the spectral properties for different light treatments. Using obtained values for photon flux density and energy ration for the suggested wavebands, A dataset comprised of enery and photon flux density (PFD) ratio (Blue: 400-500, Green: 500-600, Red: 600-700, and Far-Red: 700-800 nm), temperature (T), relative humidity (RH), and carbon dioxide (CO2) concentation (both the average value and standard deviation), photoperiod hours and day where lettuce is harvested, in addition to fresh and dry mass of the harvested lettuce which is the average of 10 to 20 samples for each light treatment. One concern which may affect the developement of surrogate model (next stage of the project), is the fact the data itself is biased. Out of 231 observations, more than 73% of the data is for natural light in the greenhouse, while for the other 34 light treatment conditions have 60 observations. Moreover, we can see that while the impact of red, blue and far-red wavebands have been throughly investigated, there is small variation for green wavebands in the data. </p>', unsafe_allow_html=True)
 
 Plant_Data=pd.read_csv("Project Data.csv")
 
