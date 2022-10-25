@@ -266,50 +266,59 @@ st.markdown('<p class="font_subtext">Fig. 4: Matrix plot for lettuce growth data
 #st.markdown('<p class="font_subsubheader"> Correlation between  </p>', unsafe_allow_html=True)
 tab1, tab2 = st.tabs(["Heatmap", "Jointplot"])
 with tab1:
-    option1 = st.selectbox(
+    col1,col2=st.columns(2,gap='small')
+    option1 = col1.selectbox(
         'Studied feature 1:',
         ('Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)',
         'CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day'),index=1)
-    option3 = st.selectbox(
+    option2 = col2.selectbox(
         'Studied feature 2:',
         ('Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)',
         'CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day'),index=2)
-    option2 = st.selectbox('Dry Mass or Fresh Mass',('Dry Mass (g)', 'Fresh Mass (g)'))
-    col1, col2=st.columns(2,gap='small')
-    heatmap = alt.Chart(Plant_Data).mark_rect().encode(
+    option3 = col1.selectbox('Dry Mass or Fresh Mass',('Dry Mass (g)', 'Fresh Mass (g)'))
+    option4_species = col2.multiselect(
+    'Select species of cultivation:',
+    ['Rouxai','Rex','Cherokee'],default = "Rex")
+    if len(option4_species) ==1:
+        Part_Plant_Data=Plant_Data.loc[(Plant_Data["Species"]==option4_species[0])]
+    elif len(option4_species) ==2:
+        Part_Plant_Data=Plant_Data.loc[(Plant_Data["Species"]==option4_species[0])|(Plant_Data["Species"]==option4_species[1])]
+    else:
+        Part_Plant_Data=Plant_Data.loc[(Plant_Data["Species"]==option4_species[0])|(Plant_Data["Species"]==option4_species[1])|(Plant_Data["Species"]==option4_species[2])]
+    heatmap = alt.Chart(Part_Plant_Data).mark_rect().encode(
         alt.X(option1+':Q', bin=True),
-        alt.Y(option2+':Q', bin=True),
+        alt.Y(option3+':Q', bin=True),
         alt.Color('count()', scale=alt.Scale(scheme='greenblue'))
     ).properties(
         height=500,
         width=700
     )
-    points = alt.Chart(Plant_Data).mark_circle(
+    points = alt.Chart(Part_Plant_Data).mark_circle(
         color='black',
         size=5,
     ).encode(
         x=option1+':Q',
-        y=option2+':Q',
+        y=option3+':Q',
     ).properties(
         height=500,
         width=700
     )
     G=heatmap+points
     col1.altair_chart(G, use_container_width=True)
-    heatmap = alt.Chart(Plant_Data).mark_rect().encode(
-        alt.X(option3+':Q', bin=True),
-        alt.Y(option2+':Q', bin=True),
+    heatmap = alt.Chart(Part_Plant_Data).mark_rect().encode(
+        alt.X(option2+':Q', bin=True),
+        alt.Y(option3+':Q', bin=True),
         alt.Color('count()', scale=alt.Scale(scheme='greenblue'))
     ).properties(
         height=500,
         width=700
     )
-    points = alt.Chart(Plant_Data).mark_circle(
+    points = alt.Chart(Part_Plant_Data).mark_circle(
         color='black',
         size=5,
     ).encode(
-        x=option3+':Q',
-        y=option2+':Q',
+        x=option2+':Q',
+        y=option3+':Q',
     ).properties(
         height=500,
         width=700
