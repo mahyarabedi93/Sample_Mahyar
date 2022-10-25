@@ -59,6 +59,7 @@ st.markdown('<p class="font_header">Data: </p>', unsafe_allow_html=True)
 
 st.markdown('<p class="font_subheader">Light Treatment: </p>', unsafe_allow_html=True)
 st.markdown('<p class="font_text">One of the cofactors that its impact has been investigated comprehensively, is the quality and the intensity with respect to its energy and photon density. While it is impossible to investigate the impact of every wavelengths on plant growth, studies suggest that impact of incoming light on plant growth could be measured by dividing the spectra into several wavebands. A common classification of light spectra is based on creating 100-nm wavebands and measure suggested parameters for specific wavebands. The following classification is used for the division spectral wavelength : Blue (B) 400 to 500 nm, Green (B) 500 to 600 nm, Red (R) 600 to 700 nm, Far-Red (FR) 700 to 800 nm. </p>', unsafe_allow_html=True)
+st.markdown('<p class="font_text">Energy and number of photons associated with the incoming spectra is often investigated in plant growth studies. Therefore, we analyzed the photon flux density and energy for each of the proposed wavebands. The following figure shows the photon flux and energy distribution for each of the investigated light treatment conditions </p>', unsafe_allow_html=True)
 
 Light_Treatments = pd.read_csv("Light Data All.csv")
 col1,col2=st.columns(2,gap='small')
