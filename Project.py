@@ -238,7 +238,7 @@ pairplot_options_y = col2.multiselect(
     
 pairplot_hue = st.sidebar.select_slider(
     'Select hue for matrixplot:',
-    options=['Species', 'Day' , 'Photoperiod (h)' , 'Treatment'])
+    options=['Species', 'Day' , 'Photoperiod (h)' , 'Treatment'],value='Treatment')
 
 
 fig1=sns.pairplot(data=Plant_Data,x_vars=pairplot_options_x,y_vars=pairplot_options_y, kind='scatter',hue=pairplot_hue,palette='hsv')
