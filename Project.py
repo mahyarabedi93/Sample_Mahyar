@@ -397,7 +397,7 @@ st.markdown('<p class="font_text">3) Addition of far-red wavebands to the spectr
 ####################################################################################################################################################################
 
 st.markdown('<p class="font_header">References: </p>', unsafe_allow_html=True)
-st.markdown('Data used for plant growth visualization are obtained from the following refrences:', unsafe_allow_html=False)
+st.markdown('<p class="font_text">Data used for plant growth visualization are obtained from the following refrences: </p>', unsafe_allow_html=True)
 st.markdown('1) Meng, Q., Boldt, J., and Runkle, E. S. (2020). Blue radiation interacts with green radiation to influence growth and predominantly controls quality attributes of lettuce. Journal of the American Society for Horticultural Science 145, 75–87280.', unsafe_allow_html=False)
 st.markdown('2) Meng, Q., Kelly, N., and Runkle, E. S. (2019). Substituting green or far-red radiation for blue radiation induces shade avoidance and promotes growth in lettuce and kale. Environmental and experimental botany 162, 383–391283.', unsafe_allow_html=False)
 st.markdown('3) Meng, Q. and Runkle, E. S. (2019). Far-red radiation interacts with relative and absolute blue and red photon flux densities to regulate growth, morphology, and pigmentation of lettuce and basil seedlings. Scientia Horticulturae 255, 269–280.', unsafe_allow_html=False)
