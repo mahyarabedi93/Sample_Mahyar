@@ -337,21 +337,22 @@ with tab1:
     st.markdown('<p class="font_subtext">Fig. 5: Heatmap of lettuce mass with respect to a feature.</p>', unsafe_allow_html=True)
 
 with tab2:
-    option3 = st.selectbox(
+    col7,col8=st.columns(2,gap='small')
+    option3 = col7.selectbox(
         'Feature 1',
         ('Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)',
         'CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day'),index=1)
 
-    option4 = st.selectbox(
+    option4 = col8.selectbox(
         'Feature 2',
         ('Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)',
         'CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day'),index=2)
 
-    option5 = st.selectbox(
+    option5 = col7.selectbox(
         'Color map:',
         ('mako','viridis','rocket','Spectral','coolwarm','cubehelix','dark:salmon_r'))
 
-    option6 = st.slider('Number of contour level:', 0, 200, 20)
+    option6 = col8.slider('Number of contour level:', 0, 200, 20)
 
     sns.set_theme(style="white")
     fig = sns.JointGrid(data=Plant_Data, x=option3, y=option4, space=0)
