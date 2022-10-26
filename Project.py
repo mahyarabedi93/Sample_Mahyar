@@ -160,10 +160,11 @@ else:
 st.pyplot(Figure)
 st.markdown('<p class="font_subtext">Fig. 1: Photon and energy distribution for various investigated light treatment.</p>', unsafe_allow_html=True)
 
-st.write('For Blue wavebands (400-500 nm) of',Light_Treatment_Name, ' light treatment, photon flux density ratio is ',np.round(All_ratio[Light_Treatment_Name].iloc[0],2),', and energy ratio is ',np.round(All_ratio['Energy '+Light_Treatment_Name].iloc[0],2),'.')
-st.write('For Green wavebands (500-600 nm) of',Light_Treatment_Name, ' light treatment, photon flux density ratio is ',np.round(All_ratio[Light_Treatment_Name].iloc[1],2),', and energy ratio is ',np.round(All_ratio['Energy '+Light_Treatment_Name].iloc[1],2),'.')
-st.write('For Red wavebands (600-700 nm) of',Light_Treatment_Name, ' light treatment, photon flux density ratio is ',np.round(All_ratio[Light_Treatment_Name].iloc[2],2),', and energy ratio is ',np.round(All_ratio['Energy '+Light_Treatment_Name].iloc[2],2),'.')
-st.write('For Far-Red wavebands (700-800 nm) of',Light_Treatment_Name, ' light treatment, photon flux density ratio is ',np.round(All_ratio[Light_Treatment_Name].iloc[3],2),', and energy ratio is ',np.round(All_ratio['Energy '+Light_Treatment_Name].iloc[3],2),'.')
+if Light_Treatment_Name != "Greenhouse":
+    st.write('For Blue wavebands (400-500 nm) of',Light_Treatment_Name, ' light treatment, photon flux density ratio is ',np.round(All_ratio[Light_Treatment_Name].iloc[0],2),', and energy ratio is ',np.round(All_ratio['Energy '+Light_Treatment_Name].iloc[0],2),'.')
+    st.write('For Green wavebands (500-600 nm) of',Light_Treatment_Name, ' light treatment, photon flux density ratio is ',np.round(All_ratio[Light_Treatment_Name].iloc[1],2),', and energy ratio is ',np.round(All_ratio['Energy '+Light_Treatment_Name].iloc[1],2),'.')
+    st.write('For Red wavebands (600-700 nm) of',Light_Treatment_Name, ' light treatment, photon flux density ratio is ',np.round(All_ratio[Light_Treatment_Name].iloc[2],2),', and energy ratio is ',np.round(All_ratio['Energy '+Light_Treatment_Name].iloc[2],2),'.')
+    st.write('For Far-Red wavebands (700-800 nm) of',Light_Treatment_Name, ' light treatment, photon flux density ratio is ',np.round(All_ratio[Light_Treatment_Name].iloc[3],2),', and energy ratio is ',np.round(All_ratio['Energy '+Light_Treatment_Name].iloc[3],2),'.')
 
 ####################################################################################################################################################################
 
