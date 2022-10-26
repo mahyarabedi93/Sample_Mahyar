@@ -390,9 +390,10 @@ st.markdown('<p class="font_subtext">Fig. 6: 3D scatter plot of lettuce mass ver
 ####################################################################################################################################################################
 
 st.markdown('<p class="font_header">Conclusion: </p>', unsafe_allow_html=True)
-st.markdown('<p class="font_text">1) Green wavebands may suppress lettuce plant growt depending on the contribution of blue wavabaned. </p>', unsafe_allow_html=True)
-st.markdown('2) Substituting green or far-red wavebands with blue increases lettuce yeild.', unsafe_allow_html=True)
-st.markdown('3) Addition of far-red wavebands to the spectrum would enhance the harvested mass of lettuce.', unsafe_allow_html=True)
+st.markdown('<p class="font_text">1) Green wavebands may suppress lettuce plant growt depending on the contribution of blue waveband. </p>', unsafe_allow_html=True)
+st.markdown('<p class="font_text">2) Substituting green or far-red wavebands with blue increases lettuce yield. </p>', unsafe_allow_html=True)
+st.markdown('<p class="font_text">3) Addition of far-red wavebands to the spectrum would enhance the harvested mass of lettuce. </p>', unsafe_allow_html=True)
+
 ####################################################################################################################################################################
 
 st.markdown('<p class="font_header">References: </p>', unsafe_allow_html=True)
