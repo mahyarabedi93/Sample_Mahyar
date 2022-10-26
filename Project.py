@@ -365,7 +365,7 @@ with tab2:
 
 ####################################################################################################################################################################
 #col7,col8=st.columns(2,gap='small')
-st.sidebar.markdown('<p class="font_text">Fig. 6: 3D Scatter Plot:</p>', unsafe_allow_html=True)
+st.sidebar.markdown('<p class="font_text">Fig. 6- 3D Scatter Plot:</p>', unsafe_allow_html=True)
 Scatter_3D_X =st.sidebar.selectbox(
     "Fig. 6: X-axis feature for 3D scatter plot:",
     ['Energy', 'Energy (400-500)','Energy (500-600)', 'Energy (600-700)', 'Energy (700-800)', 'PFD','PFD (400-500)', 'PFD (500-600)', 'PFD (600-700)', 'PFD (700-800)','CO2 ave', 'CO2 std', 'T ave', 'T std', 'RH ave', 'RH std','Photoperiod (h)', 'Day'],index=1)
@@ -387,6 +387,12 @@ fig=px.scatter_3d(Plant_Data, x=Scatter_3D_X, y=Scatter_3D_Y, z=Scatter_3D_Z,opa
 st.plotly_chart(fig)
 st.markdown('<p class="font_subtext">Fig. 6: 3D scatter plot of lettuce mass versus other features.</p>', unsafe_allow_html=True)
 
+####################################################################################################################################################################
+
+st.markdown('<p class="font_header">Conclusion: </p>', unsafe_allow_html=True)
+st.markdown('1) Green wavebands may suppress lettuce plant growt depending on the contribution of blue wavabaned.', unsafe_allow_html=True)
+st.markdown('2) Substituting green or far-red wavebands with blue increases lettuce yeild.', unsafe_allow_html=True)
+st.markdown('3) Addition of far-red wavebands to the spectrum would enhance the harvested mass of lettuce.', unsafe_allow_html=True)
 ####################################################################################################################################################################
 
 st.markdown('<p class="font_header">References: </p>', unsafe_allow_html=True)
